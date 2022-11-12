@@ -6,6 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
+	"github.com/XXena/chat/internal/handlers"
+
 	"github.com/XXena/chat/pkg/logger"
 
 	"github.com/XXena/chat/internal/config"
@@ -18,9 +20,10 @@ func Run(cfg *config.Config) {
 
 	// todo services
 	// todo handlers
+	router := handlers.InitRoutes()
 
 	go func() {
-		websocket.RunServer(cfg, l, errChan)
+		websocket.RunServer(cfg, l, router, errChan)
 	}()
 
 	// todo grpc server

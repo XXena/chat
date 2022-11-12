@@ -4,26 +4,14 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/XXena/chat/internal/config"
 	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
 
+	"github.com/XXena/chat/internal/config"
 	"github.com/XXena/chat/pkg/logger"
 )
 
-func initRoutes() *chi.Mux {
-	r := chi.NewRouter()
-	r.Use(middleware.Logger)
-	r.Get("/test", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("welcome"))
-	})
-
-	return r
-}
-
-func RunServer(cfg *config.Config, log *logger.Logger, listenErr chan error) {
+func RunServer(cfg *config.Config, log *logger.Logger, router *chi.Mux, listenErr chan error) {
 	log.Info("starting webSocket server on %s", cfg.WebSocket.Port)
-	router := initRoutes()
 
 	rt, err := time.ParseDuration(cfg.ReadTimeout)
 	if err != nil {
