@@ -15,7 +15,7 @@ type (
 	Config struct {
 		App
 		HTTP
-		WebSocket
+		WebSocket `env:",prefix=WS_"`
 		GRPC
 		Log
 	}
@@ -30,10 +30,20 @@ type (
 	}
 
 	WebSocket struct {
-		Host         string `env:"WS_HOST,default=localhost"`
-		Port         string `env-required:"true" env:"WS_PORT"`
-		ReadTimeout  string `env-required:"true" env:"WS_READ_TIMEOUT"`
-		WriteTimeout string `env-required:"true" env:"WS_WRITE_TIMEOUT"`
+		Server WebSocketServer `env:",prefix=SRV_"`
+		Client WebSocketClient `env:",prefix=CLIENT_"`
+	}
+
+	WebSocketServer struct {
+		Host         string `env:"HOST,default=localhost"`
+		Port         string `env-required:"true" env:"PORT"`
+		ReadTimeout  string `env-required:"true" env:"READ_TIMEOUT"`
+		WriteTimeout string `env-required:"true" env:"WRITE_TIMEOUT"`
+	}
+
+	WebSocketClient struct {
+		Host string `env:"HOST,default=localhost"`
+		Port string `env-required:"true" env:"PORT"`
 	}
 
 	GRPC struct {
