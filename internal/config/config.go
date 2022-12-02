@@ -31,7 +31,6 @@ type (
 
 	WebSocket struct {
 		Server WebSocketServer `env:",prefix=SRV_"`
-		Client WebSocketClient `env:",prefix=CLIENT_"`
 	}
 
 	WebSocketServer struct {
@@ -39,11 +38,6 @@ type (
 		Port         string `env-required:"true" env:"PORT"`
 		ReadTimeout  string `env-required:"true" env:"READ_TIMEOUT"`
 		WriteTimeout string `env-required:"true" env:"WRITE_TIMEOUT"`
-	}
-
-	WebSocketClient struct {
-		Host string `env:"HOST,default=localhost"`
-		Port string `env-required:"true" env:"PORT"`
 	}
 
 	GRPC struct {
