@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	logger "github.com/XXena/chat/pkg/logger"
+	"github.com/XXena/chat/pkg/logger"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/gorilla/websocket"

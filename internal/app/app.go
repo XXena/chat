@@ -6,7 +6,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	ws "github.com/XXena/chat/internal/websocket"
+	ws "github.com/XXena/chat/internal/service/websocket"
 
 	"github.com/XXena/chat/pkg/logger"
 
