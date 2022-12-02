@@ -37,7 +37,7 @@ func socketHandler(w http.ResponseWriter, r *http.Request) {
 	defer func(conn *websocket.Conn) {
 		err := conn.Close()
 		if err != nil {
-
+			log.Print("Error closing websocket connection:", err)
 		}
 	}(conn)
 

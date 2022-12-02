@@ -11,18 +11,18 @@ import (
 )
 
 func RunServer(cfg *config.Config, log *logger.Logger, router *chi.Mux, listenErr chan error) {
-	log.Info("starting webSocket server on %s", cfg.WebSocket.Server.Port)
+	log.Info("starting http server on %s", cfg.WebSocket.Server.Port)
 
 	rt, err := time.ParseDuration(cfg.WebSocket.Server.ReadTimeout)
 	if err != nil {
-		log.Error("failed to run ws server: unable to parse read timeout", err)
+		log.Error("failed to run http server: unable to parse read timeout", err)
 		listenErr <- err
 		return
 	}
 
 	wt, err := time.ParseDuration(cfg.WebSocket.Server.WriteTimeout)
 	if err != nil {
-		log.Error("failed to run ws server: unable to parse write timeout", err)
+		log.Error("failed to run http server: unable to parse write timeout", err)
 		listenErr <- err
 		return
 	}
