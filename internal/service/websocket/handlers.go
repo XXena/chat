@@ -22,8 +22,7 @@ func InitRoutes() *chi.Mux {
 			return
 		}
 	})
-
-	r.Get("/ws", socketHandler)
+	r.Get("/ws/{chat}", socketHandler)
 	return r
 }
 
@@ -41,6 +40,7 @@ func socketHandler(w http.ResponseWriter, r *http.Request) {
 		}
 	}(conn)
 
+	chatID := chi.URLParam(r, "chat")
 	// эхо сервер
 	for {
 		messageType, message, err := conn.ReadMessage()
@@ -48,13 +48,13 @@ func socketHandler(w http.ResponseWriter, r *http.Request) {
 			log.Println("Error during message reading:", err)
 			break
 		}
-		log.Printf("Received: %s", message)
+		log.Printf("ID: %s Received: %s", chatID, message)
 		err = conn.WriteMessage(messageType, message)
 		if err != nil {
 			log.Println("Error during message writing:", err)
 			break
 		}
-		log.Printf("Sent: %s", message)
+		log.Printf("ID: %s Sent: %s", chatID, message)
 	}
 }
 
