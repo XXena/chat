@@ -18,6 +18,7 @@ type (
 		WebSocket `env:",prefix=WS_"`
 		GRPC
 		Log
+		Chat
 	}
 
 	App struct {
@@ -46,6 +47,10 @@ type (
 
 	Log struct {
 		Level string `env-required:"true"  env:"LOG_LEVEL"`
+	}
+
+	Chat struct {
+		SendBufferSize int `env:"SEND_BUFFER_SIZE,default=256"`
 	}
 )
 

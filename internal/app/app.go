@@ -6,7 +6,9 @@ import (
 	"os/signal"
 	"syscall"
 
-	ws "github.com/XXena/chat/internal/service/websocket"
+	"github.com/XXena/chat/internal/service"
+
+	ws "github.com/XXena/chat/internal/websocket"
 
 	"github.com/XXena/chat/pkg/logger"
 
@@ -17,7 +19,17 @@ import (
 func Run(cfg *config.Config) {
 	l := logger.New(cfg.Log.Level)
 	errChan := make(chan error, 1)
-	router := ws.InitRoutes()
+	hub := service.NewHub()
+	socket := ws.Handler{Hub: hub, Cfg: cfg}
+	router := socket.InitRoutes()
+
+	go func() {
+		err := hub.Run()
+		l.Error(fmt.Errorf("app - Run - hub initializing error: %w", err))
+		if err != nil {
+			errChan <- err
+		}
+	}()
 
 	go func() {
 		httpTransport.RunServer(cfg, l, router, errChan)
@@ -33,7 +45,7 @@ func Run(cfg *config.Config) {
 	case err := <-errChan:
 		l.Error(fmt.Errorf("app - Run - error notify: %w", err))
 		//case <-wsClient.Done:
-		//	log.Println("Receiver Channel Closed! Exiting....")
+		//	log.Println("Receiver Channel Closed! Exiting....") // todo
 	}
 	return
 
